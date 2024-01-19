@@ -1,15 +1,33 @@
-
+import axios from 'axios'
+import { useState } from 'react'
 
 const LoginPage = () => {
+
+  const [user,setUser] = useState({
+    email: "",
+    password: ""
+  })
+
+  const Login = async()=>{
+    axios.post('http://localhost:8000/login',user)
+    .then((res)=>{
+      if(res.data.status===200)
+        alert(res.data.msg)
+      if(res.data.status===400)
+        alert(res.data.msg)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
+
   return (
-    <div>
-     <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-md w-full space-y-8">
-        <h1>
-            gg
-        </h1>
-    </div></div>
-    </div>
+    <>
+      <input type="text" placeholder="Email" value={user.email} onChange={(val)=>setUser((prev)=>({...prev,email: val.target.value}))}/>
+      <input type="text" placeholder="Password" value={user.username} onChange={(val)=>setUser((prev)=>({...prev,password: val.target.value}))}/>
+      <button onClick={Login}>SUBMIT</button>
+    </>
   )
 }
 
